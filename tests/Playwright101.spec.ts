@@ -41,13 +41,20 @@ test.describe('Playwright 101 - Suite 1', () => {
         const dragAndDropSliders = page.locator('li').getByText('Drag & Drop Sliders');
         await dragAndDropSliders.click();
         const slider = page.locator('input[type="range"][value="15"]');
+        await slider.click();
         const sliderBox = await slider.boundingBox();
+        await page.waitForTimeout(1000);
         const centerX = sliderBox.x + sliderBox.width / 2;
         const centerY = sliderBox.y + sliderBox.height / 2;
         await page.mouse.move(centerX-176, centerY);
+        await page.waitForTimeout(500);
         await page.mouse.down();
+        await page.waitForTimeout(500);
         await page.mouse.move(centerX+214, centerY);//it worked!!!
+        await page.waitForTimeout(500);
         await page.mouse.up();
+        await page.waitForTimeout(500);
+        await page.waitForTimeout(500);
         await expect(slider).toHaveValue('95');
     });
 
