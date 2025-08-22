@@ -36,8 +36,35 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
+      {
+          name: 'chrome:latest:MacOS Catalina@lambdatest',
+          use: {
+            browserName: 'chromium',
+            channel: 'chrome', // Use 'chrome' for Chrome browser
+            platform: 'MacOS Catalina',
+            // Add LambdaTest capabilities
+            launchOptions: {
+              wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify({
+                browserName: 'Chrome',
+                browserVersion: 'latest',
+                platform: 'MacOS Catalina',
+                // Add other desired capabilities like build, project, etc.
+                'LT:Options': {
+                  username: process.env.LT_USERNAME,
+                  accessKey: process.env.LT_ACCESS_KEY,
+                  build: 'Playwright Build',
+                  project: 'Playwright Project',
+                  name: 'Example Playwright Test',
+                  resolution: '1920x1080',
+                  headless: false,
+                },
+              }))}`,
+            },
+          },
+        },
     {
       name: 'chromium',
+      
       use: { ...devices['Desktop Chrome'] },
     },
 
