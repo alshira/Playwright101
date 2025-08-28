@@ -49,7 +49,13 @@ test.describe('Playwright 101 - Suite 1', () => {
       await inputEnterMessage.fill(message);
       const button = page.getByRole('button').getByText('Get Checked Value');
       await button.click();
-      await expect(page.locator('p#message')).toHaveText(message);
+      try {
+        await expect(page.locator('p#message')).toHaveText(message);
+      } catch (error) {
+        await page.evaluate(_ => { console.log(`lambdatest_action: ${JSON.stringify({action: 'setTestStatus', arguments:{status:'failed'}})}`) })
+        throw error;
+      }
+      await page.evaluate(_ => { console.log(`lambdatest_action: ${JSON.stringify({action: 'setTestStatus', arguments:{status:'passed'}})}`) })
 
   });
 
@@ -77,7 +83,14 @@ test.describe('Playwright 101 - Suite 1', () => {
         await page.mouse.up();
         await page.waitForTimeout(500);
         await page.waitForTimeout(500);
-        await expect(slider).toHaveValue('95');
+        try {
+            await expect(slider).toHaveValue('95');
+        }  catch (error) {
+        await page.evaluate(_ => { console.log(`lambdatest_action: ${JSON.stringify({action: 'setTestStatus', arguments:{status:'failed'}})}`) })
+        throw error;
+      }
+      await page.evaluate(_ => { console.log(`lambdatest_action: ${JSON.stringify({action: 'setTestStatus', arguments:{status:'passed'}})}`) })
+
     });
 
     test('Test Scenario 3', async({browserName,page}) => {
@@ -128,7 +141,14 @@ test.describe('Playwright 101 - Suite 1', () => {
        await submitButton.click();
        //await expect(page.locator('p[class="success-msg hidden"]')).toHaveText('Thanks for contacting us, we will get back to you shortly.');
        await page.waitForTimeout(1000);
+       try {
        await page.evaluate("document.querySelector('p[class=\"success-msg hidden\"]').innerText = 'Thanks for contacting us, we will get back to you shortly.';")
+       }  catch (error) {
+        await page.evaluate(_ => { console.log(`lambdatest_action: ${JSON.stringify({action: 'setTestStatus', arguments:{status:'failed'}})}`) })
+        throw error;
+      }
+      await page.evaluate(_ => { console.log(`lambdatest_action: ${JSON.stringify({action: 'setTestStatus', arguments:{status:'passed'}})}`) })
+
 
     });
 
