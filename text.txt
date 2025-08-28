@@ -1,3 +1,66 @@
 
+Integrate with Lambda test
+/*************/
+
+1) set global variables
 set LT_USERNAME=carlosacervantesc
 set LT_ACCESS_KEY=LT_LzEZ01VUe7H5wPNqifidR1Set9ioMN9Xki1kS9xM0ctxUZk
+(it worked only for me usign system variables in configuration)
+LT_LzEZ01VUe7H5wPNqifidR1Set9ioMN9Xki1kS9xM0ctxUZk
+we test:
+echo %LT_USERNAME% 
+
+2) the following is a simple sample   to illustrate how use lamda
+
+into file playwright-single.js add following:
+
+const { chromium } = require('playwright')
+const { expect } = require('@playwright/test');
+
+(async () => {
+  const capabilities = {
+    'browserName': 'Chrome', // Browsers allowed: `Chrome`, `MicrosoftEdge`, `pw-chromium`, `pw-firefox` and `pw-webkit`
+    'browserVersion': 'latest',
+    'LT:Options': {
+      'platform': 'Windows 10',
+      'build': 'Playwright Sample Build',
+      'name': 'Playwright Sample Test',
+      'user': process.env.LT_USERNAME,
+      'accessKey': process.env.LT_ACCESS_KEY,
+      'network': true,
+      'video': true,
+      'console': true
+    }
+  }
+
+  const browser = await chromium.connect({
+    wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`
+  })
+
+  const page = await browser.newPage()
+
+  await page.goto('https://www.bing.com')
+
+  const element = await page.$('[aria-label="Enter your search term"]')
+  await element.click()
+  await element.type('LambdaTest')
+  await element.press('Enter')
+  const title = await page.title()
+
+  try {
+    expect(title).toEqual('LambdaTest - Search')
+    // Mark the test as completed or failed
+    await page.evaluate(_ => {}, `lambdatest_action: ${JSON.stringify({ action: 'setTestStatus', arguments: { status: 'passed', remark: 'Title matched' } })}`)
+  } catch {
+    await page.evaluate(_ => {}, `lambdatest_action: ${JSON.stringify({ action: 'setTestStatus', arguments: { status: 'failed', remark: 'Title not matched' } })}`)
+  }
+
+  await browser.close()
+})()
+
+
+3) as you see first section have some called "capabilities" which is the environment and the connection to lambda, 
+that should not be added into any single test spec, so we:
+a) create a "config" folder
+b) create a capabilities.js file
+c) form https://www.lambdatest.com/capabilities-generator/ you can generate yout capabilities (NodeJS -->Playwright)

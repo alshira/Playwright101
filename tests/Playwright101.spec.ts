@@ -1,9 +1,31 @@
 import { test, expect } from '@playwright/test';
+import { connectToBrowser } from '../utils/setup';
+import { tearDown } from '../utils/tearDown';
+import { myCapabilities } from '../config/capabilities';
+
 
 
 test.describe('Playwright 101 - Suite 1', () => {
-     
-  test('Test Scenario 1', async({page}) => {
+        test.beforeEach(async ({}, testInfo) => {
+          //const { browser } = await connectToBrowser(myCapabilities[0]);
+          //testInfo.attach('browser', { body: browser });
+          const browserName = "chromium";
+          const capability = myCapabilities.find(cap => cap.browserName === browserName);
+          if (!capability){
+            console.error(`No capability found for browser: ${browserName}`);
+            return;
+          }
+          const browser = await connectToBrowser(capability);
+          const page = await browser.newPage();
+          await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
+
+        });
+
+        test.afterEach(async ({page, browserName}, testInfo) => {
+          await tearDown(page,browserName );
+        });
+
+  test('Test Scenario 1', async({browserName,page}) => {
     /*
     1. Open LambdaTest’s Selenium Playground from
     https://www.lambdatest.com/selenium-playground
@@ -16,7 +38,7 @@ test.describe('Playwright 101 - Suite 1', () => {
     panel under the “Your Message:” section.
     */
 
-      await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
+      //await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
       const simpleFormDemo = page.locator('li').getByText('Simple Form Demo');
       await simpleFormDemo.click();
       const myURL = page.url();
@@ -31,13 +53,13 @@ test.describe('Playwright 101 - Suite 1', () => {
 
   });
 
-    test('Test Scenario 2', async({page}) => {
+    test('Test Scenario 2', async({browserName, page}) => {
         /*Test Scenario 2:
         1. Open the https://www.lambdatest.com/selenium-playground page and
         click “Drag & Drop Sliders”.
         2. Select the slider “Default value 15” and drag the bar to make it 95 by
         validating whether the range value shows 95.*/
-        await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
+        //await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
         const dragAndDropSliders = page.locator('li').getByText('Drag & Drop Sliders');
         await dragAndDropSliders.click();
         const slider = page.locator('input[type="range"][value="15"]');
@@ -58,7 +80,7 @@ test.describe('Playwright 101 - Suite 1', () => {
         await expect(slider).toHaveValue('95');
     });
 
-    test('Test Scenario 3', async({page}) => {
+    test('Test Scenario 3', async({browserName,page}) => {
         /*
         Test Scenario 3:
         1. Open the https://www.lambdatest.com/selenium-playground page and
@@ -72,7 +94,7 @@ test.describe('Playwright 101 - Suite 1', () => {
         7. Once submitted, validate the success message “Thanks for contacting
         us, we will get back to you shortly.” on the screen.
         */
-       await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
+       //await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
        const inputFormSubmit = page.locator('li').getByText('Input Form Submit');
        await inputFormSubmit.click();
        const submitButton = page.getByRole('button').getByText('Submit');

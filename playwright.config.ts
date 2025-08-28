@@ -50,8 +50,8 @@ export default defineConfig({
                 platform: 'MacOS Catalina',
                 // Add other desired capabilities like build, project, etc.
                 'LT:Options': {
-                  username: process.env.LT_USERNAME,
-                  accessKey: process.env.LT_ACCESS_KEY,
+                  username: "carlosacervantesc",
+                  accessKey: "LT_LMQg6Jk8nfl3gdIVVeEli1Qvz0XPFcgZW2Nh8ix770XOC1M",
                   build: 'Playwright Build',
                   project: 'Playwright Project',
                   name: 'Example Playwright Test',
