@@ -1,7 +1,7 @@
 // JS const{chromium} = require("playwright")
 import {chromium} from "playwright";
 
-export const connectToBrowser = async(capabilities)=>{
+export async function connectToBrowser(capabilities){
     const browser = await chromium.connect({
         wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify(capabilities))}`
     })
