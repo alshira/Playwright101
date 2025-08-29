@@ -37,31 +37,58 @@ export default defineConfig({
   /* Configure projects for major browsers */
   projects: [
       {
-          name: 'chrome:latest:MacOS Catalina@lambdatest',
+          name: 'chrome:latest:Windows@lambdatest',
           use: {
             browserName: 'chromium',
             channel: 'chrome', // Use 'chrome' for Chrome browser
-            platform: 'MacOS Catalina',
+            platform: 'Windows 10',
             // Add LambdaTest capabilities
             launchOptions: {
               wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify({
                 browserName: 'Chrome',
                 browserVersion: 'latest',
-                platform: 'MacOS Catalina',
+                platform: 'Windows 10',
                 // Add other desired capabilities like build, project, etc.
                 'LT:Options': {
                   username: "carlosacervantesc",
                   accessKey: "LT_LMQg6Jk8nfl3gdIVVeEli1Qvz0XPFcgZW2Nh8ix770XOC1M",
                   build: 'Playwright Build',
                   project: 'Playwright Project',
-                  name: 'Example Playwright Test',
-                  resolution: '1920x1080',
+                  name: 'Windows10Chrome',
+                  resolution: '1024x768',
                   headless: false,
                 },
               }))}`,
             },
           },
         },
+              {
+          name: 'chrome:latest:Linux@lambdatest',
+          use: {
+            browserName: 'chromium',
+            channel: 'chrome', // Use 'chrome' for Chrome browser
+            platform: 'Linux',
+            // Add LambdaTest capabilities
+            launchOptions: {
+              wsEndpoint: `wss://cdp.lambdatest.com/playwright?capabilities=${encodeURIComponent(JSON.stringify({
+                browserName: 'Chrome',
+                browserVersion: 'latest',
+                platform: 'Linux',
+                // Add other desired capabilities like build, project, etc.
+                'LT:Options': {
+                  username: "carlosacervantesc",
+                  accessKey: "LT_LMQg6Jk8nfl3gdIVVeEli1Qvz0XPFcgZW2Nh8ix770XOC1M",
+                  build: 'Playwright Build',
+                  project: 'Playwright Project',
+                  name: 'LinuxChrome',
+                  resolution: '1024x768',
+                  headless: false,
+                },
+              }))}`,
+            },
+          },
+        },
+
     {
       name: 'chromium',
       

@@ -64,3 +64,6 @@ that should not be added into any single test spec, so we:
 a) create a "config" folder
 b) create a capabilities.js file
 c) form https://www.lambdatest.com/capabilities-generator/ you can generate yout capabilities (NodeJS -->Playwright)
+
+
+Internal Server Error: browserType.connect: Unauthorized, either Username or AccessKey is invalid.

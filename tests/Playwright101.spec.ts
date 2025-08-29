@@ -6,7 +6,7 @@ import { myCapabilities } from '../config/capabilities';
 
 
 test.describe('Playwright 101 - Suite 1', () => {
-        test.beforeEach(async ({}, testInfo) => {
+        /*test.beforeEach(async ({}, testInfo) => {
           //const { browser } = await connectToBrowser(myCapabilities[0]);
           //testInfo.attach('browser', { body: browser });
           const browserName = "chromium";
@@ -24,7 +24,7 @@ test.describe('Playwright 101 - Suite 1', () => {
         test.afterEach(async ({page, browserName}, testInfo) => {
           await tearDown(page,browserName );
         });
-
+        */
   test('Test Scenario 1', async({browserName,page}) => {
     /*
     1. Open LambdaTest’s Selenium Playground from
@@ -38,7 +38,8 @@ test.describe('Playwright 101 - Suite 1', () => {
     panel under the “Your Message:” section.
     */
 
-      //await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
+      await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
+      await page.waitForTimeout(1000);
       const simpleFormDemo = page.locator('li').getByText('Simple Form Demo');
       await simpleFormDemo.click();
       const myURL = page.url();
@@ -65,7 +66,7 @@ test.describe('Playwright 101 - Suite 1', () => {
         click “Drag & Drop Sliders”.
         2. Select the slider “Default value 15” and drag the bar to make it 95 by
         validating whether the range value shows 95.*/
-        //await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
+        await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
         const dragAndDropSliders = page.locator('li').getByText('Drag & Drop Sliders');
         await dragAndDropSliders.click();
         const slider = page.locator('input[type="range"][value="15"]');
@@ -107,7 +108,7 @@ test.describe('Playwright 101 - Suite 1', () => {
         7. Once submitted, validate the success message “Thanks for contacting
         us, we will get back to you shortly.” on the screen.
         */
-       //await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
+       await page.goto('https://www.lambdatest.com/selenium-playground',{ waitUntil: 'domcontentloaded' });
        const inputFormSubmit = page.locator('li').getByText('Input Form Submit');
        await inputFormSubmit.click();
        const submitButton = page.getByRole('button').getByText('Submit');
